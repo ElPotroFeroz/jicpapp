@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main_navigation.dart';
+import 'teacher_navigation.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -52,24 +53,69 @@ class LoginScreen extends StatelessWidget {
                 
                 const SizedBox(height: 48),
                 
-                // Boton de Acceso
+                // Boton de Acceso (Comentado)
+                /*
                 SizedBox(
                   width: double.infinity,
                   height: 55,
                   child: FilledButton(
                     onPressed: () {
-                      // Simula login directo al Dashboard
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => const MainNavigation()),
                       );
                     },
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFD4AF37), // Dorado
+                      backgroundColor: const Color(0xFFD4AF37),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     ),
                     child: const Text('Acceder', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
                   ),
+                ),
+                const SizedBox(height: 16),
+                */
+
+                // Botones por Rol
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 55,
+                        child: FilledButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => const MainNavigation()),
+                            );
+                          },
+                          style: FilledButton.styleFrom(
+                            backgroundColor: const Color(0xFFD4AF37),
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: const Text('Alumno', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: SizedBox(
+                        height: 55,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => const TeacherNavigation()),
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Color(0xFFD4AF37), width: 2),
+                            foregroundColor: const Color(0xFFD4AF37),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: const Text('Profesor', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../mock_data.dart';
 import 'market_screen.dart';
-import 'profile_screen.dart';
 import 'learning_screen.dart';
+import 'create_project_screen.dart';
+import 'portfolio_screen.dart';
+import 'profile_screen.dart';
 import 'welcome_screen.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -13,206 +14,135 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 0; // 0: Dashboard, 1: Mercado, 2: Aprendizaje
+  int _selectedIndex = 0;
 
   final List<String> _titles = [
-    'Dashboard / Perfil',
-    'Mercado de Proyectos',
-    'Aprendizaje'
+    'Mercado',
+    'Cursos y Aprendizaje',
+    'Portafolio',
+    'Crear Proyecto',
+    'Perfil'
   ];
 
   final List<Widget> _screens = [
-    const ProfileScreen(),
     const MarketScreen(),
     const LearningScreen(),
+    const PortfolioScreen(),
+    const CreateProjectScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    // Cerrar el Drawer después de hacer clic
-    Navigator.pop(context);
-  }
-
-  Widget _buildNavItem(IconData iconOutlined, IconData iconFilled, String title, int index) {
-    final isSelected = _selectedIndex == index;
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFFD4AF37).withOpacity(0.1) : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        leading: Icon(
-          isSelected ? iconFilled : iconOutlined,
-          color: isSelected ? const Color(0xFFD4AF37) : Colors.white60,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? const Color(0xFFD4AF37) : Colors.white60,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-        selected: isSelected,
-        onTap: () => _onItemTapped(index),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = MockData.currentUser;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _titles[_selectedIndex],
-        ),
-        // El ícono de menú hamburguesa aparece automáticamente porque tenemos un "drawer"
-      ),
-      drawer: Drawer(
-        backgroundColor: const Color(0xFF151515), // Carbon
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Cabecera del Menú Lateral
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color(0xFF0F0F0F),
-                border: Border(bottom: BorderSide(color: Color(0xFFD4AF37), width: 1)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: const Color(0xFFD4AF37),
-                        backgroundImage: NetworkImage(user.profileImageUrl),
-                        onBackgroundImageError: (_, __) {},
-                        child: user.profileImageUrl.isEmpty
-                            ? const Icon(Icons.person, color: Colors.black, size: 28)
-                            : null,
-                      ),
-                      const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFD4AF37).withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3)),
-                        ),
-                        child: Text(
-                          'Nivel ${user.level}',
-                          style: const TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold, fontSize: 12),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    user.name,
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  const Text(
-                    'Inversor / Alumno',
-                    style: TextStyle(color: Colors.white60, fontSize: 13),
-                  ),
-                ],
-              ),
-            ),
-            
-            // Opciones de Navegación
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                children: [
-                  _buildNavItem(Icons.dashboard_outlined, Icons.dashboard, 'Dashboard', 0),
-                  _buildNavItem(Icons.storefront_outlined, Icons.storefront, 'Mercado', 1),
-                  _buildNavItem(Icons.school_outlined, Icons.school, 'Aprendizaje', 2),
-                  
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    child: Divider(color: Colors.white12),
-                  ),
-                  
-                  // Saldo JICP (Reubicado debajo de Aprendizaje)
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0A0A0A),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.2)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFD4AF37).withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Saldo Total JICP', style: TextStyle(color: Colors.white54, fontSize: 12, fontWeight: FontWeight.w600)),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFD4AF37).withOpacity(0.15),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(Icons.account_balance_wallet, color: Color(0xFFD4AF37), size: 18),
-                            ),
-                            const SizedBox(width: 12),
-                            Text(
-                              user.balance.toStringAsFixed(2),
-                              style: const TextStyle(
-                                color: Color(0xFFD4AF37), 
-                                fontWeight: FontWeight.w900, 
-                                fontSize: 24,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            const Divider(color: Colors.white12, height: 1),
-            
-            // Cerrar Sesión
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              child: ListTile(
-                leading: const Icon(Icons.logout, color: Colors.white54),
-                title: const Text('Cerrar sesión', style: TextStyle(color: Colors.white54)),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                onTap: () {
-                  // Navegamos de vuelta al Login destruyendo el historial de screens
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                    (route) => false,
-                  );
+        title: Text(_selectedIndex == 4 ? '' : _titles[_selectedIndex]),
+        centerTitle: true,
+        actions: _selectedIndex == 4 
+          ? [
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert, color: Color(0xFFD4AF37), size: 28),
+                color: const Color(0xFF151515),
+                onSelected: (value) {
+                  if (value == 'logout') {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                      (route) => false,
+                    );
+                  }
                 },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'edit',
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit, color: Colors.white, size: 20),
+                        SizedBox(width: 12),
+                        Text('Editar Perfil', style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout, color: Colors.redAccent, size: 20),
+                        SizedBox(width: 12),
+                        Text('Cerrar Sesión', style: TextStyle(color: Colors.redAccent)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 8), // Espaciado final adaptativo
-          ],
-        ),
+            ]
+          : null,
       ),
       body: _screens[_selectedIndex],
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFF151515),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: BottomNavigationBar(
+                backgroundColor: Colors.transparent,
+                type: BottomNavigationBarType.fixed,
+                elevation: 0,
+                selectedItemColor: const Color(0xFFD4AF37),
+                unselectedItemColor: Colors.white54,
+                iconSize: 28,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: 'Buscar',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.menu_book),
+                    label: 'Cursos',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.account_balance_wallet_outlined),
+                    activeIcon: Icon(Icons.account_balance_wallet),
+                    label: 'Portafolio',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.add_circle_outline),
+                    activeIcon: Icon(Icons.add_circle),
+                    label: 'Crear',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outline),
+                    activeIcon: Icon(Icons.person),
+                    label: 'Perfil',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

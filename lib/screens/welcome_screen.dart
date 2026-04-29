@@ -30,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'JICP',
+                  'MYM',
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20, color: Colors.black, letterSpacing: 0.5),
                 ),
                 Text(
@@ -96,7 +96,7 @@ class WelcomeScreen extends StatelessWidget {
                   const Icon(Icons.bolt, color: Color(0xFFD4AF37)),
                   const SizedBox(width: 8),
                   Text(
-                    'JICP cierra esta brecha',
+                    'MYM cierra esta brecha',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFFB8901D),
@@ -338,7 +338,7 @@ class WelcomeScreen extends StatelessWidget {
             text: const TextSpan(
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: Colors.white, height: 1.2),
               children: [
-                TextSpan(text: 'JICP: '),
+                TextSpan(text: 'MYM: '),
                 TextSpan(text: 'El puente hacia\n', style: TextStyle(color: Colors.white)),
                 TextSpan(text: 'el mundo real', style: TextStyle(color: Color(0xFFD4AF37))),
               ],
