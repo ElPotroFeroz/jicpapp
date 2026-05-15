@@ -216,17 +216,150 @@ class _TeacherMarketScreenState extends State<TeacherMarketScreen> {
   }
 }
 
-class TeacherCreateCourseScreen extends StatelessWidget {
+class TeacherCreateCourseScreen extends StatefulWidget {
   const TeacherCreateCourseScreen({super.key});
 
   @override
+  State<TeacherCreateCourseScreen> createState() => _TeacherCreateCourseScreenState();
+}
+
+class _TeacherCreateCourseScreenState extends State<TeacherCreateCourseScreen> {
+  bool _isCreating = false;
+
+  @override
   Widget build(BuildContext context) {
+    if (_isCreating) {
+      return _buildCreationForm(context);
+    }
+
+    return _buildCourseList(context);
+  }
+
+  Widget _buildCourseList(BuildContext context) {
+    final courses = MockData.myCourses;
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Mis Cursos',
+                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => setState(() => _isCreating = true),
+                icon: const Icon(Icons.add, color: Colors.black),
+                label: const Text('Crear Curso', style: TextStyle(color: Colors.black)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFD4AF37),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            itemCount: courses.length,
+            itemBuilder: (context, index) {
+              final course = courses[index];
+              return Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF151515),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                      child: Image.network(
+                        course.imageUrl,
+                        height: 140,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            course.title,
+                            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            course.description,
+                            style: const TextStyle(color: Colors.white54, fontSize: 13),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Añadir ejercicios a: ${course.title}')),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.assignment, size: 18),
+                                  label: const Text('Añadir Ejercicios'),
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: const Color(0xFFD4AF37),
+                                    side: const BorderSide(color: Color(0xFFD4AF37)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.edit, color: Colors.white54),
+                                style: IconButton.styleFrom(
+                                  backgroundColor: Colors.white.withOpacity(0.05),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCreationForm(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Crear Nuevo Curso', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+          Row(
+            children: [
+              IconButton(
+                onPressed: () => setState(() => _isCreating = false),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+              ),
+              const Text('Crear Nuevo Curso', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+            ],
+          ),
           const SizedBox(height: 24),
           _buildField('Título del Curso', Icons.title),
           const SizedBox(height: 16),
@@ -254,6 +387,7 @@ class TeacherCreateCourseScreen extends StatelessWidget {
             height: 55,
             child: FilledButton(
               onPressed: () {
+                setState(() => _isCreating = false);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Curso creado y asignado con éxito')));
               },
               style: FilledButton.styleFrom(backgroundColor: const Color(0xFFD4AF37), foregroundColor: Colors.black),

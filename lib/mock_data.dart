@@ -105,9 +105,30 @@ class MockData {
   ];
 
   static final List<Course> myCourses = [
-    Course(title: 'Introducción a Inversiones', progress: 0.8),
-    Course(title: 'Análisis Fundamental', progress: 0.4),
-    Course(title: 'Economía de Startups', progress: 0.1),
+    Course(
+      title: 'Creación de una Empresa',
+      description: 'Aprende los pasos fundamentales para transformar una idea en un negocio viable y escalable.',
+      imageUrl: 'https://picsum.photos/seed/business/400/300',
+      progress: 0.8,
+    ),
+    Course(
+      title: 'Inversiones y Mercados',
+      description: 'Descubre cómo funciona el mercado de valores y las diferentes estrategias de inversión.',
+      imageUrl: 'https://picsum.photos/seed/stocks/400/300',
+      progress: 0.4,
+    ),
+    Course(
+      title: 'Economía de Startups',
+      description: 'Análisis de modelos de negocio disruptivos y rondas de financiación.',
+      imageUrl: 'https://picsum.photos/seed/startup/400/300',
+      progress: 0.1,
+    ),
+    Course(
+      title: 'Marketing Digital Pro',
+      description: 'Estrategias avanzadas de adquisición y retención de clientes en la era digital.',
+      imageUrl: 'https://picsum.photos/seed/marketing/400/300',
+      progress: 0.0,
+    ),
   ];
 
   static final List<Comment> projectComments = [
@@ -197,10 +218,14 @@ class Project {
 
 class Course {
   final String title;
+  final String description;
+  final String imageUrl;
   final double progress;
 
   Course({
     required this.title,
+    required this.description,
+    required this.imageUrl,
     required this.progress,
   });
 }
